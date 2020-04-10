@@ -34,10 +34,6 @@ $.fn.SetEditable = function (options) {
         onAdd: function () { }     //Called when added a new row
     };
     params = $.extend(defaults, options);
-    this.find('thead tr').append('<th name="buttons" align="right"><button id="addButton" type="button" ' +
-        ' class="btn btn-sm btn-default" title="Adicionar produto"> ' +
-        ' <span class="fa fa-plus" > </span> ' +
-        ' </button></th>');  //encabezado vacío
     this.find('tbody tr').append(colEdicHtml);
     var $tabedi = this;   //Read reference to the current table, to resolve "this" here.
     //Process "addButton" parameter

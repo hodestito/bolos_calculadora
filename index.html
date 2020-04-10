@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calculo de Bolos</title>
-  <link href="styles.css" rel="stylesheet" type="text/css">
+  <link href="./assets/css/styles.css" rel="stylesheet" type="text/css">
+  <link href="./assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-  <link href="bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
@@ -25,6 +25,9 @@
           <th>Unidade Custo</th>
           <th>Custo Unitário (B)</th>
           <th>Custo Total (A*B)</th>
+          <th><button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto"> 
+            <span class="fa fa-plus" > </span> </button>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -141,9 +144,11 @@
   </div>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="bootstable.js"></script>
+  <script src="./assets/bootstrap/bootstable.js"></script>
   <script>
-    $('table').SetEditable();
+    $('table').SetEditable({
+      $addButton: $('#but_add')
+    });
   </script>
 
 </body>
