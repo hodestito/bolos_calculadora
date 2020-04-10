@@ -160,13 +160,13 @@
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: config.apiKey,
-      authDomain: config.authDomain,
-      databaseURL: config.databaseURL,
-      projectId: config.projectId,
-      storageBucket: config.projectId,
-      messagingSenderId: config.projectId,
-      appId: config.projectId
+      apiKey: process.env.apiKey,
+      authDomain: process.env.authDomain,
+      databaseURL: process.env.databaseURL,
+      projectId: process.env.projectId,
+      storageBucket: process.env.projectId,
+      messagingSenderId: process.env.projectId,
+      appId: process.env.projectId
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
