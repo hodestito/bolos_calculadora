@@ -48,6 +48,43 @@ $.fn.SetEditable = function (options) {
         //Extract felds
         colsEdi = params.columnsEd.split(',');
     }
+
+
+    //Firebase
+    // Inicializar banco de dados
+    var db = firebase.firestore();
+    //Adicionar dados
+    //db.collection("produtosTeste").add ({
+    //    nome: "Ovos",
+    //    unidade: ["Unidade"]
+    //});
+    //Recuperar todos os registros
+    db.collection("produtos").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${doc.id} => ${doc.data()}`);
+        });
+    });
+    
+    //carregaProdutos(db);
+    
+    //Pega a referencia do registro (documento)
+    var docRef = db.collection("produtos").doc("Abacaxi");
+
+    //Recupera as informacoes do documento
+    docRef.get().then(function(doc) {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            console.log("Unidades disponiveis:", doc.data().unidades);
+            $.each(doc.data().unidades, function(key, value){
+                console.log(key);
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 };
 function IterarCamposEdit($cols, tarea) {
     //Itera por los campos editables de una fila

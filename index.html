@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calculo de Bolos</title>
+  <link rel="shortcut icon" href="./assets/img/favicon.ico">
   <link href="./assets/css/styles.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -25,8 +26,8 @@
           <th>Custo Unitário (B)</th>
           <th>Custo Total (A*B)</th>
           <th>Adicionar produto
-            <button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto"> 
-            <span class="fa fa-plus" > </span> </button>
+            <button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto">
+              <span class="fa fa-plus"> </span> </button>
           </th>
         </tr>
       </thead>
@@ -148,6 +149,28 @@
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="./assets/js/bootstable.js"></script>
+  <script src="./assets/js/config.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: config.apiKey,
+      authDomain: config.authDomain,
+      databaseURL: config.databaseURL,
+      projectId: config.projectId,
+      storageBucket: config.projectId,
+      messagingSenderId: config.projectId,
+      appId: config.projectId
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script>
     $('table').SetEditable({
       $addButton: $('#but_add')
