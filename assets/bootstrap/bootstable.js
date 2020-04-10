@@ -8,7 +8,7 @@ Bootstable
 //Global variables
 var params = null;  		//Parameters
 var colsEdi = null;
-var newColHtml = '<div class="btn-group pull-right">' +
+var newColHtml = '<div class="btn-group">' +
     '<button id="bEdit" type="button" class="btn btn-sm btn-default" onclick="rowEdit(this);">' +
     '<span class="fa fa-pencil" > </span>' +
     '</button>' +

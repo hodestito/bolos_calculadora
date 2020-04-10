@@ -1,12 +1,8 @@
-h1 {
+h1, h4 {
     text-align: center;
 }
 
-.container {
-    margin: 10px auto;
-    width: fit-content;
-}
-
-table {
-    width: fit-content;
+td, th {
+    width: 1% !important;
+    white-space: nowrap !important;
 }

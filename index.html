@@ -7,15 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calculo de Bolos</title>
   <link href="./assets/css/styles.css" rel="stylesheet" type="text/css">
-  <link href="./assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
-  <div class="container">
+  <div class="table-responsive">
     <h1>C&aacute;lculo de bolos</h1>
-    <table id="tbProdutos" class="table-bordered">
+    <table class="table table-bordered w-auto">
       <thead>
         <tr>
           <th>Item</th>
@@ -25,7 +24,8 @@
           <th>Unidade Custo</th>
           <th>Custo Unitário (B)</th>
           <th>Custo Total (A*B)</th>
-          <th><button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto"> 
+          <th>Adicionar produto
+            <button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto"> 
             <span class="fa fa-plus" > </span> </button>
           </th>
         </tr>
@@ -142,8 +142,11 @@
       </tbody>
     </table>
   </div>
+  <div>
+    <h4>O calculo vai aqui</h4>
+  </div>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="./assets/bootstrap/bootstable.js"></script>
   <script>
     $('table').SetEditable({
