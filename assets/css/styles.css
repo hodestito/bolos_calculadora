@@ -19,3 +19,9 @@ h1, h4 {
 select {
     width: 100%;
 }
+
+.semborda {
+    border: 0;
+    outline: none;
+    width: 100%;
+}

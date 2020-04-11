@@ -24,8 +24,8 @@ var newColHtml = '<div class="btn-group">' +
     '</div>';
 var colEdicHtml = '<td name="buttons">' + newColHtml + '</td>';
 
-$.fn.BuscaProdutos = function (){
-    
+$.fn.BuscaProdutos = function () {
+
     //Firebase
     // Inicializar banco de dados
     var db = firebase.firestore();
@@ -38,21 +38,21 @@ $.fn.BuscaProdutos = function (){
             //console.log(produto);
             //Object.keys(keys).map(a => console.log(a));
             $("#tbbody").append(
-                  '<tr>'
+                  '<tr id="' + doc.id + '">'
                 + '<td name="nome">' + produto.nome + '</td>'
                 + '<td name="quantidade">' + 0 + '</td>'
-                + '<td name="select"><select id="cars' + doc.id + '">'
+                + '<td name="select"><select id="un' + doc.id + '" onChange="changeUnidade(value)">'
                 + '</select></td>'
-                + '<td name="valorcusto">' + numeral(produto.valorcusto).format('$0.0000') + '</td>'
+                + '<td name="valorcusto">' + numeral(produto.valorcusto).format('0.00') + '</td>'
                 + '<td name="unidadecusto">' + produto.unidadecusto + '</td>'
-                + '<td name="custounitario">' + numeral(produto.custounitario).format('$0.0000') + '</td>'
-                + '<td name="valortotal">' + numeral(0).format('$0.0000') + '</td>'
+                + '<td name="custounitario">' + numeral(produto.custounitario).format('0.0000') + '</td>'
+                + '<td name="valortotal">' + numeral(0).format('0.00') + '</td>'
                 + colEdicHtml +
                 + '</tr>'
             )
-            $.each(doc.data().unidades, function(key, value){
-                $("#cars"+doc.id).append(
-                    "<option value=" + value + ">"+ key +"</option>"
+            $.each(doc.data().unidades, function (key, value) {
+                $("#un" + doc.id).append(
+                    "<option value=" + value + ">" + key + "</option>"
                 )
             })
         });
@@ -66,9 +66,9 @@ $.fn.SetEditable = function (options) {
     var defaults = {
         columnsEd: null,         //Index to editable columns. If null all td editables. Ex.: "1,2,3,4,5"
         $addButton: null,        //Jquery object of "Add" button
-        onEdit: function () { },   //Called after edition
+        onEdit: function () { Recalcular() },   //Called after edition - Recalcular
         onBeforeDelete: function () { }, //Called before deletion
-        onDelete: function () { }, //Called after deletion
+        onDelete: function () { Recalcular() }, //Called after deletion
         onAdd: function () { }     //Called when added a new row
     };
     params = $.extend(defaults, options);
@@ -93,19 +93,54 @@ $.fn.SetEditable = function (options) {
         //Extract felds
         colsEdi = params.columnsEd.split(',');
     }
-
-    //Recalcular
-    $("#tbbody").on("change", function(){
-        console.log("body alterado");
-    });
 };
+
+function Recalcular(){
+    console.log("Recalculado!");
+    var rows = $("#tbbody").get(0).rows;
+    var tcustoprodutos = 0;
+    for (let i = 0; i < rows.length; i++) {
+        var quantidade = rows[i].cells[1].innerText;
+        var unidadeid = rows[i].id;
+        var multiplicador = $("#un" + unidadeid + " option:selected").val();
+        var custounitario = rows[i].cells[5].innerText;
+        var custottotal = quantidade * multiplicador * custounitario
+        tcustoprodutos = tcustoprodutos + custottotal;
+
+        //Formata o valor do custo por linha
+        rows[i].cells[6].innerText = numeral(custottotal).format("0.00");
+
+        //console.log("Quantidade = " + quantidade 
+        //+ " * multiplicador = " + multiplicador 
+        //+ " * custounitario = " + custounitario
+        //+ " = total = " + custottotal);
+    }
+
+    //Atualiza a tabela de totais
+    $("#tcustoproduto").get(0).cells[1].innerText = numeral(tcustoprodutos).format("0.00");
+    var tcustosadicionais = $("#tcustosadicionais").get(0).cells[1];
+    //$("#tcustosadicionais").get(0).cells[1].innerText = numeral(tcustosadicionais).format("0.00");
+    console.log(Object.getPrototypeOf(tcustosadicionais));
+    var tgastosextras = (tcustoprodutos)*0.3;
+    $("#tgastosextras").get(0).cells[1].innerText = numeral(tgastosextras).format("0.00");
+    var tcustototal = tcustoprodutos + tgastosextras;
+    $("#tcustototal").get(0).cells[1].innerText = numeral(tcustototal).format("0.00");
+    var tvalora = tcustototal * 2;
+    $("#tvalora").get(0).cells[1].innerText = numeral(tvalora).format("0.00");
+    var tvalorb = tcustototal * 3;
+    $("#tvalorb").get(0).cells[1].innerText = numeral(tvalorb).format("0.00");
+    var tvalorc = tcustototal * 4;
+    $("#tvalorc").get(0).cells[1].innerText = numeral(tvalorc).format("0.00");
+
+}
+
 function IterarCamposEdit($cols, tarea) {
     //Itera por los campos editables de una fila
     var n = 0;
     $cols.each(function () {
         n++;
         if ($(this).attr('name') == 'buttons') return;  //excluye columna de botones
-        if ($(this).attr('name') != 'quantidade') return;  //exclui colunas nao alteraveis
+//        if ($(this).attr('name') != 'quantidade') return;  //exclui colunas nao alteraveis
         if (!EsEditable(n - 1)) return;   //noe s campo editable
         tarea($(this));
     });
@@ -123,8 +158,8 @@ function IterarCamposEdit($cols, tarea) {
         }
     }
 }
-function changeUnidade(valor){
-    console.log(valor + " eh o novo valor do combo!");
+function changeUnidade(valor) {
+    Recalcular();
 }
 function FijModoNormal(but) {
     $(but).parent().find('#bAcep').hide();
@@ -132,7 +167,8 @@ function FijModoNormal(but) {
     $(but).parent().find('#bEdit').show();
     $(but).parent().find('#bElim').show();
     var $row = $(but).parents('tr');  //accede a la fila
-    $row.attr('id', '');  //quita marca
+    var id = $row.attr('id');
+    $row.attr('id', id.substr(1,id.length));  //quita marca
 }
 function FijModoEdit(but) {
     $(but).parent().find('#bAcep').show();
@@ -140,10 +176,11 @@ function FijModoEdit(but) {
     $(but).parent().find('#bEdit').hide();
     $(but).parent().find('#bElim').hide();
     var $row = $(but).parents('tr');  //accede a la fila
-    $row.attr('id', 'editing');  //indica que está en edición
+    var id = $row.attr('id');
+    $row.attr('id', '/' + id);  //indica que está en edición
 }
 function ModoEdicion($row) {
-    if ($row.attr('id') == 'editing') {
+    if ($row.attr('id').substr(0,1) == '/') {
         return true;
     } else {
         return false;
@@ -196,36 +233,9 @@ function rowElim(but) {  //Elimina la fila actual
 function rowAddNew(tabId) {  //Agrega fila a la tabla indicada.
     console.log(tabId);
     var $tab_en_edic = $("#" + tabId);  //Table to edit
-    var $filas = $tab_en_edic.find('tbody tr');
-    if ($filas.length == 0) {
-        //No hay filas de datos. Hay que crearlas completas
-        var $row = $tab_en_edic.find('thead tr');  //encabezado
-        var $cols = $row.find('th');  //lee campos
-        //construye html
-        var htmlDat = '';
-        $cols.each(function () {
-            if ($(this).attr('name') == 'buttons') {
-                //Es columna de botones
-                htmlDat = htmlDat + colEdicHtml;  //agrega botones
-            } else {
-                htmlDat = htmlDat + '<td></td>';
-            }
-        });
-        $tab_en_edic.find('tbody').append('<tr>' + htmlDat + '</tr>');
-    } else {
-        //Hay otras filas, podemos clonar la última fila, para copiar los botones
-        var $ultFila = $tab_en_edic.find('tr:last');
-        $ultFila.clone().appendTo($ultFila.parent());
-        $ultFila = $tab_en_edic.find('tr:last');
-        var $cols = $ultFila.find('td');  //lee campos
-        $cols.each(function () {
-            if ($(this).attr('name') == 'buttons') {
-                //Es columna de botones
-            } else {
-                $(this).html('');  //limpia contenido
-            }
-        });
-    }
+    //construye html
+    var htmlDat = '<td></td><td></td><td></td><td></td><td></td><td></td><td></td>' + colEdicHtml;
+    $tab_en_edic.append('<tr>' + htmlDat + '</tr>');
     params.onAdd();
 }
 function TableToCSV(tabId, separator) {  //Convierte tabla a CSV

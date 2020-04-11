@@ -1,0 +1,137 @@
+{
+    "data": [
+        {
+            "id": "Abacaxi",
+            "nome": "Abacaxi",
+            "unidades": {
+                "unidade": 1
+            },
+            "custounitario": 6.9,
+            "unidadecusto": "Unidade",
+            "valorcusto": 6.9
+        },
+        {
+            "id": "Acucar",
+            "nome": "Açúcar",
+            "unidades": {
+                "colher de sopa": 20,
+                "grama": 1,
+                "xicara": 160
+            },
+            "custounitario": 0.0024,
+            "unidadecusto": "Pacote 1kg",
+            "valorcusto": 2.4
+        },
+        {
+            "id": "Baunilha",
+            "nome": "Baunilha",
+            "unidades": {
+                "colher de chá": 5,
+                "ml": 1
+            },
+            "custounitario": 0.12,
+            "unidadecusto": "Pote 30ml",
+            "valorcusto": 3.5
+        },
+        {
+            "id": "Chantilly",
+            "nome": "Chantilly",
+            "unidades": {
+                "caixa 1L": 1000,
+                "ml": 1
+            },
+            "custounitario": 0.0089,
+            "unidadecusto": "Caixa 1L",
+            "valorcusto": 8.9
+        },
+        {
+            "id": "CremeDeLeite",
+            "nome": "Creme de leite",
+            "unidades": {
+                "lata": 1
+            },
+            "custounitario": 3.19,
+            "unidadecusto": "Lata",
+            "valorcusto": 3.19
+        },
+        {
+            "id": "Farinha",
+            "nome": "Farinha",
+            "unidades": {
+                "colher de sopa": 20,
+                "grama": 1,
+                "xícara": 200
+            },
+            "custounitario": 0.00199,
+            "unidadecusto": "Pacote 1kg",
+            "valorcusto": 1.99
+        },
+        {
+            "id": "Fermento",
+            "nome": "Fermento",
+            "unidades": {
+                "colher de chá": 10,
+                "grama": 1
+            },
+            "custounitario": 0.0219,
+            "unidadecusto": "Pacote 100g",
+            "valorcusto": 2.19
+        },
+        {
+            "id": "Leite",
+            "nome": "Leite",
+            "unidades": {
+                "caixa 1L": 1000,
+                "ml": 1
+            },
+            "custounitario": 0.0219,
+            "unidadecusto": "Caixa 1L",
+            "valorcusto": 2.19
+        },
+        {
+            "id": "LeiteCondensado",
+            "nome": "Leite condensado",
+            "unidades": {
+                "lata": 1
+            },
+            "custounitario": 3.89,
+            "unidadecusto": "Lata",
+            "valorcusto": 3.89
+        },
+        {
+            "id": "LeiteNinho",
+            "nome": "Leite Ninho",
+            "unidades": {
+                "colher de sopa": 15,
+                "grama": 1,
+                "xícara": 240
+            },
+            "custounitario": 0.03475,
+            "unidadecusto": "Lata 400g",
+            "valorcusto": 13.9
+        },
+        {
+            "id": "Maisena",
+            "nome": "Maisena",
+            "unidades": {
+                "colher de sopa": 10,
+                "grama": 1,
+                "xícara": 120
+            },
+            "custounitario": 0.03995,
+            "unidadecusto": "Pacote 200g",
+            "valorcusto": 7.99
+        },
+        {
+            "id": "Ovo",
+            "nome": "Ovo",
+            "unidades": {
+                "dúzia": 12,
+                "unidade": 1
+            },
+            "custounitario": 0.66583,
+            "unidadecusto": "Caixa c/12",
+            "valorcusto": 7.99
+        }
+    ]
+}

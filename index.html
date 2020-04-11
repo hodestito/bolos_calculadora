@@ -25,10 +25,11 @@
           <th>Unidade Custo</th>
           <th>Custo Unitário (B)</th>
           <th>Custo Total (A*B)</th>
-          <th>Adicionar produto
+          <th></th>
+          <!-- <th>Adicionar produto
             <button id="but_add" type="button" class="btn btn-sm btn-default" title="Adicionar produto">
               <span class="fa fa-plus"> </span> </button>
-          </th>
+          </th> -->
         </tr>
       </thead>
       <tbody id="tbbody">
@@ -38,32 +39,32 @@
   <div>
     <h4>O calculo vai aqui</h4>
     <table class="table table-bordered w-auto">
-        <tbody id="tbcalculo">
-          <tr>
+        <tbody id="tbtotais">
+          <tr id="tcustoproduto">
             <th>Custo produtos</th>
             <td>0.00</td>
           </tr>
-          <tr>
+          <tr id="tcustosadicionais">
             <th>Custos adicionais</th>
+            <td><input type="text" class="semborda"/></td>
+          </tr>
+          <tr id="tgastosextras">
+            <th>Gastos extras</th>
             <td>0.00</td>
           </tr>
-          <tr>
+          <tr id="tcustototal">
             <th>Custo total</th>
             <td>0.00</td>
           </tr>
-          <tr>
-            <th>Custo total + gastos extras</th>
-            <td>0.00</td>
-          </tr>
-          <tr>
+          <tr id="tvalora">
             <th>Valor A</th>
             <td>0.00</td>
           </tr>
-          <tr>
+          <tr id="tvalorb">
             <th>Valor B</th>
             <td>0.00</td>
           </tr>
-          <tr>
+          <tr id="tvalorc">
             <th>Valor C</th>
             <td>0.00</td>
           </tr>
@@ -73,7 +74,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-  <script src="./assets/js/bootstable.js"></script>
+  <script src="./assets/js/script.js"></script>
   <script src="./assets/js/config.js"></script>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
@@ -97,9 +98,10 @@
     firebase.initializeApp(firebaseConfig);
   </script>
   <script>
-    $('table').BuscaProdutos();
-    $('table').SetEditable({
-      $addButton: $('#but_add')
+    $('#tbbody').BuscaProdutos();
+    $('#tbbody').SetEditable({
+      $addButton: $('#but_add'),
+      columnsEd: "1"
     });
   </script>
 
