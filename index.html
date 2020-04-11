@@ -31,115 +31,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Ovos</td>
-          <td>10</td>
-          <td>Unidades</td>
-          <td>R$ 7,99</td>
-          <td>Caixa c/ 12</td>
-          <td>R$ 0,67</td>
-          <td>R$ 6,66</td>
-        </tr>
-        <tr>
-          <td>Farinha</td>
-          <td>1</td>
-          <td>5 Xícaras (200g)</td>
-          <td>R$ 1,99</td>
-          <td>Pacote 1kg</td>
-          <td>R$ 1,99</td>
-          <td>R$ 1,99</td>
-        </tr>
-        <tr>
-          <td>Baunilha</td>
-          <td>5</td>
-          <td>1 Colher chá (5ml)</td>
-          <td>R$ 3,50</td>
-          <td>Pote 30ml</td>
-          <td>R$ 0,12</td>
-          <td>R$ 0,58</td>
-        </tr>
-        <tr>
-          <td>Açúcar</td>
-          <td>560</td>
-          <td>3,5 Xícaras (160g)</td>
-          <td>R$ 2,40</td>
-          <td>Pacote 1kg</td>
-          <td>R$ 0,00</td>
-          <td>R$ 1,34</td>
-        </tr>
-        <tr>
-          <td>Fermento</td>
-          <td>20</td>
-          <td>2 Colheres sopa (10g)</td>
-          <td>R$ 2,19</td>
-          <td>Pacote 100g</td>
-          <td>R$ 0,02</td>
-          <td>R$ 0,44</td>
-        </tr>
-        <tr>
-          <td>Abacaxi </td>
-          <td>2</td>
-          <td>Unidades</td>
-          <td>R$ 6,90</td>
-          <td>Unidade</td>
-          <td>R$ 6,90</td>
-          <td>R$ 13,80</td>
-        </tr>
-        <tr>
-          <td>Leite</td>
-          <td>1</td>
-          <td>Caixa 1L</td>
-          <td>R$ 2,19</td>
-          <td>Caixa 1L</td>
-          <td>R$ 2,19</td>
-          <td>R$ 2,19</td>
-        </tr>
-        <tr>
-          <td>Creme de Leite</td>
-          <td>1</td>
-          <td>Lata</td>
-          <td>R$ 3,19</td>
-          <td>Lata</td>
-          <td>R$ 3,19</td>
-          <td>R$ 3,19</td>
-        </tr>
-        <tr>
-          <td>Leite Condensado</td>
-          <td>1</td>
-          <td>Lata</td>
-          <td>R$ 3,89</td>
-          <td>Lata</td>
-          <td>R$ 3,89</td>
-          <td>R$ 3,89</td>
-        </tr>
-        <tr>
-          <td>Maisena</td>
-          <td>40</td>
-          <td>4 Colheres de Sopa (10g)</td>
-          <td>R$ 7,99</td>
-          <td>Pacote 200g</td>
-          <td>R$ 0,04</td>
-          <td>R$ 1,60</td>
-        </tr>
-        <tr>
-          <td>Chantilly</td>
-          <td>1</td>
-          <td>Caixa 1L</td>
-          <td>R$ 8,90</td>
-          <td>Caixa 1L</td>
-          <td>R$ 8,90</td>
-          <td>R$ 8,90</td>
-        </tr>
-        <tr>
-          <td>Leite Ninho</td>
-          <td>80</td>
-          <td>8 Colheres de sopa (10g)</td>
-          <td>R$ 13,90</td>
-          <td>Lata 400g</td>
-          <td>R$ 0,03</td>
-          <td>R$ 2,78</td>
-        </tr>
+      <tbody id="tbbody">
       </tbody>
     </table>
   </div>
@@ -148,6 +40,7 @@
   </div>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   <script src="./assets/js/bootstable.js"></script>
   <script src="./assets/js/config.js"></script>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -160,18 +53,19 @@
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: process.env.apiKey,
-      authDomain: process.env.authDomain,
-      databaseURL: process.env.databaseURL,
-      projectId: process.env.projectId,
-      storageBucket: process.env.projectId,
-      messagingSenderId: process.env.projectId,
-      appId: process.env.projectId
+      apiKey: config.apiKey,
+      authDomain: config.authDomain,
+      databaseURL: config.databaseURL,
+      projectId: config.projectId,
+      storageBucket: config.projectId,
+      messagingSenderId: config.projectId,
+      appId: config.projectId
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
   <script>
+    $('table').BuscaProdutos();
     $('table').SetEditable({
       $addButton: $('#but_add')
     });

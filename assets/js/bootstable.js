@@ -24,18 +24,63 @@ var newColHtml = '<div class="btn-group">' +
     '</div>';
 var colEdicHtml = '<td name="buttons">' + newColHtml + '</td>';
 
+$.fn.BuscaProdutos = function (){
+    
+    //Firebase
+    // Inicializar banco de dados
+    var db = firebase.firestore();
+
+    //Recuperar todos os registros
+    db.collection("produtos").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            //console.log(`${doc.id} => ${doc.data()}`);
+            var produto = doc.data();
+            //console.log(produto);
+            //Object.keys(keys).map(a => console.log(a));
+            this.find('tbody').append(
+                  '<tr>'
+                + '<td>' + produto.nome + '</td>'
+                + '<td>' + 0 + '</td>'
+                + '<td><select id="cars' + doc.id + '">'
+                + '</select></td>'
+                + '<td>' + numeral(produto.valorcusto).format('$0.0000') + '</td>'
+                + '<td>' + produto.unidadecusto + '</td>'
+                + '<td>' + numeral(produto.custounitario).format('$0.0000') + '</td>'
+                + '<td>' + numeral(0).format('$0.0000') + '</td>'
+                + colEdicHtml +
+                + '</tr>'
+            )
+            $.each(doc.data().unidades, function(key, value){
+                $("#cars"+doc.id).append(
+                    "<option>"+ key +"</option>"
+                )
+            })
+        });
+    });
+
+    //carregaDBProdutos(db);
+};
+
+
 $.fn.SetEditable = function (options) {
     var defaults = {
         columnsEd: null,         //Index to editable columns. If null all td editables. Ex.: "1,2,3,4,5"
         $addButton: null,        //Jquery object of "Add" button
-        onEdit: function () { alert("A célula foi editada") },   //Called after edition
+        onEdit: function () { alert("A célula foi editada") },   //Called after edition - Recalcular
         onBeforeDelete: function () { }, //Called before deletion
         onDelete: function () { }, //Called after deletion
         onAdd: function () { }     //Called when added a new row
     };
     params = $.extend(defaults, options);
-    this.find('tbody tr').append(colEdicHtml);
+    //this.find('tbody tr').append(colEdicHtml);
+    //$("tr").append(colEdicHtml);
     var $tabedi = this;   //Read reference to the current table, to resolve "this" here.
+    //console.log($("#tbbody").get(0).rows[1]);
+    //$("#tbbody").on("change", function ( ){
+    //    $tabedi.find('tbody tr').append(colEdicHtml);
+    //});
+
+
     //Process "addButton" parameter
     if (params.$addButton != null) {
         //Se proporcionó parámetro
@@ -48,43 +93,6 @@ $.fn.SetEditable = function (options) {
         //Extract felds
         colsEdi = params.columnsEd.split(',');
     }
-
-
-    //Firebase
-    // Inicializar banco de dados
-    var db = firebase.firestore();
-    //Adicionar dados
-    //db.collection("produtosTeste").add ({
-    //    nome: "Ovos",
-    //    unidade: ["Unidade"]
-    //});
-    //Recuperar todos os registros
-    db.collection("produtos").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-        });
-    });
-    
-    //carregaProdutos(db);
-    
-    //Pega a referencia do registro (documento)
-    var docRef = db.collection("produtos").doc("Abacaxi");
-
-    //Recupera as informacoes do documento
-    docRef.get().then(function(doc) {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            console.log("Unidades disponiveis:", doc.data().unidades);
-            $.each(doc.data().unidades, function(key, value){
-                console.log(key);
-            })
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
 };
 function IterarCamposEdit($cols, tarea) {
     //Itera por los campos editables de una fila
@@ -108,6 +116,9 @@ function IterarCamposEdit($cols, tarea) {
             return false;  //no se encontró
         }
     }
+}
+function changeUnidade(valor){
+    console.log(valor + " eh o novo valor do combo!");
 }
 function FijModoNormal(but) {
     $(but).parent().find('#bAcep').hide();
