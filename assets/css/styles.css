@@ -2,9 +2,16 @@ h1, h4 {
     text-align: center;
 }
 
-td, th {
+#tbbody td, th {
     width: 1% !important;
     white-space: nowrap !important;
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+#tbcalculo td {
+    width: fit-content !important;
+    white-space: normal !important;
     vertical-align: middle !important;
     text-align: center;
 }

@@ -37,22 +37,22 @@ $.fn.BuscaProdutos = function (){
             var produto = doc.data();
             //console.log(produto);
             //Object.keys(keys).map(a => console.log(a));
-            this.find('tbody').append(
+            $("#tbbody").append(
                   '<tr>'
-                + '<td>' + produto.nome + '</td>'
-                + '<td>' + 0 + '</td>'
-                + '<td><select id="cars' + doc.id + '">'
+                + '<td name="nome">' + produto.nome + '</td>'
+                + '<td name="quantidade">' + 0 + '</td>'
+                + '<td name="select"><select id="cars' + doc.id + '">'
                 + '</select></td>'
-                + '<td>' + numeral(produto.valorcusto).format('$0.0000') + '</td>'
-                + '<td>' + produto.unidadecusto + '</td>'
-                + '<td>' + numeral(produto.custounitario).format('$0.0000') + '</td>'
-                + '<td>' + numeral(0).format('$0.0000') + '</td>'
+                + '<td name="valorcusto">' + numeral(produto.valorcusto).format('$0.0000') + '</td>'
+                + '<td name="unidadecusto">' + produto.unidadecusto + '</td>'
+                + '<td name="custounitario">' + numeral(produto.custounitario).format('$0.0000') + '</td>'
+                + '<td name="valortotal">' + numeral(0).format('$0.0000') + '</td>'
                 + colEdicHtml +
                 + '</tr>'
             )
             $.each(doc.data().unidades, function(key, value){
                 $("#cars"+doc.id).append(
-                    "<option>"+ key +"</option>"
+                    "<option value=" + value + ">"+ key +"</option>"
                 )
             })
         });
@@ -66,7 +66,7 @@ $.fn.SetEditable = function (options) {
     var defaults = {
         columnsEd: null,         //Index to editable columns. If null all td editables. Ex.: "1,2,3,4,5"
         $addButton: null,        //Jquery object of "Add" button
-        onEdit: function () { alert("A célula foi editada") },   //Called after edition - Recalcular
+        onEdit: function () { },   //Called after edition
         onBeforeDelete: function () { }, //Called before deletion
         onDelete: function () { }, //Called after deletion
         onAdd: function () { }     //Called when added a new row
@@ -93,6 +93,11 @@ $.fn.SetEditable = function (options) {
         //Extract felds
         colsEdi = params.columnsEd.split(',');
     }
+
+    //Recalcular
+    $("#tbbody").on("change", function(){
+        console.log("body alterado");
+    });
 };
 function IterarCamposEdit($cols, tarea) {
     //Itera por los campos editables de una fila
@@ -100,6 +105,7 @@ function IterarCamposEdit($cols, tarea) {
     $cols.each(function () {
         n++;
         if ($(this).attr('name') == 'buttons') return;  //excluye columna de botones
+        if ($(this).attr('name') != 'quantidade') return;  //exclui colunas nao alteraveis
         if (!EsEditable(n - 1)) return;   //noe s campo editable
         tarea($(this));
     });
