@@ -25,3 +25,7 @@ select {
     outline: none;
     width: 100%;
 }
+
+.centralizar {
+    text-align: center;
+}
