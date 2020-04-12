@@ -1,39 +1,45 @@
 from app import app, mongo
+from bson import Binary, Code
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from flask import jsonify, request
+from flask_cors import CORS, cross_origin
 from subprocess import Popen, PIPE
 
-@app.route('/produtos', methods=['POST'])
-def add_user():
-	_json = request.json
-	_id = _json['id']
-	_nome = _json['nome']
-	_unidades = _json['unidades']
-	_unidadecusto = _json['unidadecusto']
-	_valorcusto = _json['valorcusto']
-	_custounitario = _json['custounitario']
-	# validate the received values
-	if _id and _nome and _unidades and _unidadecusto and _valorcusto and _custounitario and request.method == 'POST':
-		# save details
-		id = mongo.db.produto.insert_one(
-			{'id': _id, 'nome': _nome, 'unidades': _unidades, 'unidadecusto': _unidadecusto,
-			 'valorcusto': _valorcusto, 'custounitario': _custounitario}
-		)
-		print(id)
-		resp = jsonify('Produto adicionado com sucesso!')
-		resp.status_code = 200
-		return resp
-	else:
-		return not_found()
+cors = CORS(app)
+
+#@app.route('/produtos', methods=['POST'])
+# def add_user():
+#	_json = request.json
+#	_id = _json['id']
+#	_nome = _json['nome']
+#	_unidades = _json['unidades']
+#	_unidadecusto = _json['unidadecusto']
+#	_valorcusto = _json['valorcusto']
+#	_custounitario = _json['custounitario']
+#	# validate the received values
+#	if _id and _nome and _unidades and _unidadecusto and _valorcusto and _custounitario and request.method == 'POST':
+#		# save details
+#		id = mongo.db.produto.insert_one(
+#			{'id': _id, 'nome': _nome, 'unidades': _unidades, 'unidadecusto': _unidadecusto,
+#			 'valorcusto': _valorcusto, 'custounitario': _custounitario}
+#		)
+#		print(id)
+#		resp = jsonify('Produto adicionado com sucesso!')
+#		resp.status_code = 200
+#		return resp
+#	else:
+#		return not_found()
 		
 @app.route('/produtos')
+@cross_origin()
 def produtos():
 	produtos = mongo.db.produto.find()
 	resp = dumps(produtos)
 	return resp
-		
+
 @app.route('/produtos/<id>')
+@cross_origin()
 def produto(id):
 	produto = mongo.db.produto.find_one({'_id': ObjectId(id)})
 	resp = dumps(produto)

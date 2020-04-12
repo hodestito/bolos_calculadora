@@ -6,6 +6,7 @@ Bootstable
 */
 "use strict";
 //Global variables
+var URL = "http://localhost:5000/produtos";
 var params = null;  		//Parameters
 var colsEdi = null;
 var newColHtml = '<div class="btn-group">' +
@@ -26,39 +27,80 @@ var colEdicHtml = '<td name="buttons">' + newColHtml + '</td>';
 
 $.fn.BuscaProdutos = function () {
 
-    //Firebase
-    // Inicializar banco de dados
-    var db = firebase.firestore();
+    //Get no http://localhost:5000/produtos
+    //Transformar o json de retorno em um tabela HTML
 
-    //Recuperar todos os registros
-    db.collection("produtos").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            //console.log(`${doc.id} => ${doc.data()}`);
-            var produto = doc.data();
-            //console.log(produto);
-            //Object.keys(keys).map(a => console.log(a));
-            $("#tbbody").append(
-                  '<tr id="' + doc.id + '">'
-                + '<td name="nome">' + produto.nome + '</td>'
-                + '<td name="quantidade">' + 0 + '</td>'
-                + '<td name="select"><select id="un' + doc.id + '" onChange="changeUnidade(value)">'
-                + '</select></td>'
-                + '<td name="valorcusto">' + numeral(produto.valorcusto).format('0.00') + '</td>'
-                + '<td name="unidadecusto">' + produto.unidadecusto + '</td>'
-                + '<td name="custounitario">' + numeral(produto.custounitario).format('0.0000') + '</td>'
-                + '<td name="valortotal">' + numeral(0).format('0.00') + '</td>'
-                + colEdicHtml +
-                + '</tr>'
-            )
-            $.each(doc.data().unidades, function (key, value) {
-                $("#un" + doc.id).append(
-                    "<option value=" + value + ">" + key + "</option>"
-                )
-            })
-        });
+    var response = "";
+    $.ajax({
+        url: URL,
+        type: 'GET',
+        dataType: 'json',
+        success: function (res) {
+            response = res;
+            //console.log(Object.getPrototypeOf(res))
+            $(function () {
+                $.each(response, function (i, item) {
+                    var $tr = $('<tr id="' + item.id + '">').append(
+                        $('<td>').text(item.nome),
+                        $('<td>').text("0"),
+                        $('<td><select id="un' + item.id + '" onChange="changeUnidade(value)"></select>'),
+                        $('<td>').text(item.valorcusto),
+                        $('<td>').text(item.unidadecusto),
+                        $('<td>').text(item.custounitario),
+                        $('<td>').text("0"),
+                        colEdicHtml
+                    ).appendTo('#tbbody');
+                    //console.log($tr.wrap('<p>').html());
+                    $.each(item.unidades, function (key, value) {
+                        $("#un" + item.id).append(
+                            "<option value=" + value + ">" + key + "</option>"
+                        )
+                    })
+                });
+            });
+            $('#tbbody').SetEditable({
+                $addButton: $('#but_add'),
+                columnsEd: "1"
+            });
+        }
     });
 
-    //carregaDBProdutos(db);
+    //console.log(response);
+    //response = $.parseJSON(response);
+    //console.log(Object.getPrototypeOf(response))
+
+
+    //Firebase
+    // Inicializar banco de dados
+    //var db = firebase.firestore();
+
+    //Recuperar todos os registros
+    //db.collection("produtos").get().then((querySnapshot) => {
+    //    querySnapshot.forEach((doc) => {
+    //        //console.log(`${doc.id} => ${doc.data()}`);
+    //        var produto = doc.data();
+    //        //console.log(produto);
+    //        //Object.keys(keys).map(a => console.log(a));
+    //        $("#tbbody").append(
+    //              '<tr id="' + doc.id + '">'
+    //            + '<td name="nome">' + produto.nome + '</td>'
+    //            + '<td name="quantidade">' + 0 + '</td>'
+    //            + '<td name="select"><select id="un' + doc.id + '" onChange="changeUnidade(value)">'
+    //            + '</select></td>'
+    //            + '<td name="valorcusto">' + numeral(produto.valorcusto).format('0.00') + '</td>'
+    //            + '<td name="unidadecusto">' + produto.unidadecusto + '</td>'
+    //            + '<td name="custounitario">' + numeral(produto.custounitario).format('0.0000') + '</td>'
+    //            + '<td name="valortotal">' + numeral(0).format('0.00') + '</td>'
+    //            + colEdicHtml +
+    //            + '</tr>'
+    //        )
+    //        $.each(doc.data().unidades, function (key, value) {
+    //            $("#un" + doc.id).append(
+    //                "<option value=" + value + ">" + key + "</option>"
+    //            )
+    //       })
+    //    });
+    //});
 };
 
 
@@ -95,7 +137,7 @@ $.fn.SetEditable = function (options) {
     }
 };
 
-function Recalcular(){
+function Recalcular() {
     console.log("Recalculado!");
     var rows = $("#tbbody").get(0).rows;
     var tcustoprodutos = 0;
@@ -118,18 +160,18 @@ function Recalcular(){
 
     //Atualiza a tabela de totais
     $("#tcustoproduto").get(0).cells[1].innerText = numeral(tcustoprodutos).format("0.00");
-    var tcustosadicionais = $("#tcustosadicionais").get(0).cells[1];
-    //$("#tcustosadicionais").get(0).cells[1].innerText = numeral(tcustosadicionais).format("0.00");
-    console.log(Object.getPrototypeOf(tcustosadicionais));
-    var tgastosextras = (tcustoprodutos)*0.3;
+    var tcustosadicionais = $("#inputcustosadic").val();
+    console.log(tcustosadicionais);
+    var tgastosextras = (parseFloat(tcustoprodutos) + parseFloat(tcustosadicionais)) * 0.3;
     $("#tgastosextras").get(0).cells[1].innerText = numeral(tgastosextras).format("0.00");
-    var tcustototal = tcustoprodutos + tgastosextras;
+    var tcustototal = parseFloat(tcustoprodutos) + parseFloat(tcustosadicionais) + parseFloat(tgastosextras);
+    console.log(tcustototal);
     $("#tcustototal").get(0).cells[1].innerText = numeral(tcustototal).format("0.00");
-    var tvalora = tcustototal * 2;
+    var tvalora = parseFloat(tcustototal) * 2;
     $("#tvalora").get(0).cells[1].innerText = numeral(tvalora).format("0.00");
-    var tvalorb = tcustototal * 3;
+    var tvalorb = parseFloat(tcustototal) * 3;
     $("#tvalorb").get(0).cells[1].innerText = numeral(tvalorb).format("0.00");
-    var tvalorc = tcustototal * 4;
+    var tvalorc = parseFloat(tcustototal) * 4;
     $("#tvalorc").get(0).cells[1].innerText = numeral(tvalorc).format("0.00");
 
 }
@@ -140,7 +182,7 @@ function IterarCamposEdit($cols, tarea) {
     $cols.each(function () {
         n++;
         if ($(this).attr('name') == 'buttons') return;  //excluye columna de botones
-//        if ($(this).attr('name') != 'quantidade') return;  //exclui colunas nao alteraveis
+        //        if ($(this).attr('name') != 'quantidade') return;  //exclui colunas nao alteraveis
         if (!EsEditable(n - 1)) return;   //noe s campo editable
         tarea($(this));
     });
@@ -158,6 +200,11 @@ function IterarCamposEdit($cols, tarea) {
         }
     }
 }
+$("#inputcustosadic").on('change', function () {
+    var n = parseFloat($(this).val()).toFixed(2);
+    $(this).val(n)
+    Recalcular();
+});
 function changeUnidade(valor) {
     Recalcular();
 }
@@ -168,7 +215,7 @@ function FijModoNormal(but) {
     $(but).parent().find('#bElim').show();
     var $row = $(but).parents('tr');  //accede a la fila
     var id = $row.attr('id');
-    $row.attr('id', id.substr(1,id.length));  //quita marca
+    $row.attr('id', id.substr(1, id.length));  //quita marca
 }
 function FijModoEdit(but) {
     $(but).parent().find('#bAcep').show();
@@ -180,7 +227,7 @@ function FijModoEdit(but) {
     $row.attr('id', '/' + id);  //indica que está en edición
 }
 function ModoEdicion($row) {
-    if ($row.attr('id').substr(0,1) == '/') {
+    if ($row.attr('id').substr(0, 1) == '/') {
         return true;
     } else {
         return false;

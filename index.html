@@ -46,7 +46,7 @@
           </tr>
           <tr id="tcustosadicionais">
             <th>Custos adicionais</th>
-            <td><input type="text" class="semborda"/></td>
+            <td><input type="number" class="semborda" id="inputcustosadic" value="0.00"/></td>
           </tr>
           <tr id="tgastosextras">
             <th>Gastos extras</th>
@@ -71,38 +71,16 @@
         </tbody>
     </table>
   </div>
+  <div>
+    <table id="tbmongo"></table>
+  </div>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   <script src="./assets/js/script.js"></script>
-  <script src="./assets/js/config.js"></script>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
 
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
-
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: config.apiKey,
-      authDomain: config.authDomain,
-      databaseURL: config.databaseURL,
-      projectId: config.projectId,
-      storageBucket: config.projectId,
-      messagingSenderId: config.projectId,
-      appId: config.projectId
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
   <script>
     $('#tbbody').BuscaProdutos();
-    $('#tbbody').SetEditable({
-      $addButton: $('#but_add'),
-      columnsEd: "1"
-    });
   </script>
 
 </body>
