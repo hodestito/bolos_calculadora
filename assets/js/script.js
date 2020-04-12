@@ -6,7 +6,7 @@ Bootstable
 */
 "use strict";
 //Global variables
-var URL = "http://localhost:5000/produtos";
+var URL = "http://bolos-calculadora.herokuapp.com/produtos";
 var params = null;  		//Parameters
 var colsEdi = null;
 var newColHtml = '<div class="btn-group">' +
@@ -27,7 +27,7 @@ var colEdicHtml = '<td name="buttons">' + newColHtml + '</td>';
 
 $.fn.BuscaProdutos = function () {
 
-    //Get no http://localhost:5000/produtos
+    //Get na URL
     //Transformar o json de retorno em um tabela HTML
 
     var response = "";
