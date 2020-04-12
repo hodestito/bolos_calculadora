@@ -87,5 +87,5 @@ def not_found(error=None):
     return resp
 
 if __name__ == "__main__":
-    p = Popen(['python server.py'], shell=True, stdout=PIPE, stderr=PIPE)
+    #p = Popen(['python server.py'], shell=True, stdout=PIPE, stderr=PIPE)
     app.run(host='0.0.0.0', port=5000, debug=True)
