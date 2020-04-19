@@ -32,17 +32,17 @@ cors = CORS(app)
 #	else:
 #		return not_found()
 		
-@app.route('/produtos')
+@app.route('/produtos', methods=['GET'])
 @cross_origin()
 def produtos():
 	produtos = mongo.db.produto.find()
 	resp = dumps(produtos)
 	return resp
 
-@app.route('/produtos/<id>')
+@app.route('/produtos/<id>', methods=['GET'])
 @cross_origin()
 def produto(id):
-	produto = mongo.db.produto.find_one({'_id': ObjectId(id)})
+	produto = mongo.db.produto.find_one({'id': id})
 	resp = dumps(produto)
 	return resp
 

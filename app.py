@@ -3,8 +3,6 @@ from flask_pymongo import PyMongo
 import os
 
 app = Flask(__name__)
-user = os.getenv("USR")
-password = os.getenv("PWD")
 uri = os.getenv("MONGOURI")
 app.config["MONGO_URI"] = uri
 mongo = PyMongo(app)
